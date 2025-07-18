@@ -26,12 +26,14 @@ jobs:
           name: simpleknob-rpm
           path: '*.rpm'
 
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
       - name: Upload RPM to GitHub Release
         uses: softprops/action-gh-release@v1

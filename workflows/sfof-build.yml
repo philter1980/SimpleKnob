@@ -1,0 +1,53 @@
+# Create the GitHub Actions workflow file content for building and releasing SimpleKnob
+workflow_content = """name: Build and Release SimpleKnob
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: coderus/sfos-sdk:latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build RPM
+        run: |
+          cd $GITHUB_WORKSPACE
+          mb2 -t SailfishOS-4.5.0.24-aarch64 build
+
+      - name: Upload RPM as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: simpleknob-rpm
+          path: '*.rpm'
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload RPM to GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: '*.rpm'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+"""
+
+# Save the workflow file to .github/workflows/sfos-build.yml
+import os
+
+os.makedirs(".github/workflows", exist_ok=True)
+with open(".github/workflows/sfos-build.yml", "w") as f:
+    f.write(workflow_content)
+
+print("GitHub Actions workflow file 'sfos-build.yml' has been generated successfully.")
+

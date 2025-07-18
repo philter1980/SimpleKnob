@@ -43,11 +43,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 # Save the workflow file to .github/workflows/sfos-build.yml
-import os
-
-os.makedirs(".github/workflows", exist_ok=True)
-with open(".github/workflows/sfos-build.yml", "w") as f:
-    f.write(workflow_content)
-
-print("GitHub Actions workflow file 'sfos-build.yml' has been generated successfully.")
-

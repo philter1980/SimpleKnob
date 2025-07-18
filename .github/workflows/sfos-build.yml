@@ -1,5 +1,4 @@
-# Create the GitHub Actions workflow file content for building and releasing SimpleKnob
-workflow_content = """name: Build and Release SimpleKnob
+name: Build and Release SimpleKnob
 
 on:
   push:
@@ -40,7 +39,6 @@ jobs:
           files: '*.rpm'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-"""
 
 # Save the workflow file to .github/workflows/sfos-build.yml
 import os
